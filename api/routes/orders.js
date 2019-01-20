@@ -1,12 +1,13 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const checkAuth = require('../middleware/check-auth')
 
 const router = express.Router()
 
 const OrderModel = require('../models/orderModel')
 const ProductModel = require('../models/productModel')
 
-router.get('/', (req, res, next) => {
+router.get('/', checkAuth, (req, res, next) => {
   OrderModel.find()
     .select('product quantity _id')
     .populate('product', 'name')
@@ -34,7 +35,7 @@ router.get('/', (req, res, next) => {
     })
 })
 
-router.post('/', (req, res, next) => {
+router.post('/', checkAuth, (req, res, next) => {
   // Check if product actually exists, so that order
   // could link to the product
   // hint: product is parent, order is child
@@ -77,7 +78,7 @@ router.post('/', (req, res, next) => {
     })
 })
 
-router.get('/:orderId', (req, res, next) => {
+router.get('/:orderId', checkAuth, (req, res, next) => {
   OrderModel.findById(req.params.orderId)
     .populate('product')
     .exec()
@@ -102,7 +103,7 @@ router.get('/:orderId', (req, res, next) => {
     })
 })
 
-router.delete('/:orderId', (req, res, next) => {
+router.delete('/:orderId', checkAuth, (req, res, next) => {
   OrderModel.remove( {_id: req.params.orderId })
   .exec()
   .then(result => {

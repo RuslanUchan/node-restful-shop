@@ -2,6 +2,8 @@ const express = require('express')
 const mongoose = require('mongoose')
 const multer = require('multer')
 
+const checkAuth = require('../middleware/check-auth')
+
 const router = express.Router()
 
 // Multer configuration
@@ -12,7 +14,7 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     // Executes this callback whenever a new file is received
-    cb(null, new Date().now() + '-' + file.originalname)
+    cb(null, `${Date.now()}-${file.originalname}`)
   }
 })
 
@@ -74,7 +76,11 @@ router.get('/', (req, res, next) => {
     })
 })
 
-router.post('/', upload.single('productImage'), (req, res, next) => {
+// Be careful when parsing the body of an incoming request
+// Sometimes there are undetected parsing errors that comes from
+// unhandled type of data (json, form data, multi-part)
+router.post('/', checkAuth, upload.single('productImage'), (req, res, next) => {
+  // If there's no token in the body of the request, throw Auth failed
   console.log(req.file)
 
   // In the documentation of our API, we must state what
@@ -140,7 +146,7 @@ router.get('/:productId', (req, res, next) => {
 })
 
 // Update product
-router.patch('/:productId', (req, res, next) => {
+router.patch('/:productId', checkAuth, (req, res, next) => {
   const id = req.params.productId
 
   // Create default value, if only 1 value gets updated
@@ -166,7 +172,7 @@ router.patch('/:productId', (req, res, next) => {
 })
 
 // Update product
-router.delete('/:productId', (req, res, next) => {
+router.delete('/:productId', checkAuth, (req, res, next) => {
   const id = req.params.productId
   ProductModel.remove({_id: id})
     .exec()
