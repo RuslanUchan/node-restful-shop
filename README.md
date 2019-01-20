@@ -1,7 +1,9 @@
 # Node Rest Shop API
 
+*I'm trying to write a technical API docs. This is my first time. If maybe you've tried this API by following this docs and find some problems or if it works correctly, please tell me at [my email](ruslanuchan97@gmail.com). Thank you! :)*
+
 ### Introduction
-rest-shop is a Node-Express-MongoDB based restful API that imitates the work of a shopping application backend processes.
+Rest-Shop is a Node-Express-MongoDB based restful API that imitates the work of a shopping application backend processes.
 
 This application is a tutorial from [Academind's Restful API with Node.js playlist](https://www.youtube.com/playlist?list=PL55RiY5tL51q4D-B63KBnygU6opNPFk_q)
 
@@ -187,3 +189,4 @@ Retrieves information related to the orders of the product in the database. Ther
 ### To add
 - User roles. e.g Admin, User; Only Admin can delete user account
 - Outsource the multer configuration from product route
+- Gives additional comment to the code to clearly explain each part functionality
