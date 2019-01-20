@@ -6,6 +6,7 @@ const app = express()
 
 const productRoutes = require('./api/routes/products')
 const orderRoutes = require('./api/routes/orders')
+const userRoutes = require('./api/routes/users')
 
 mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@mongoatlas-qv5kn.mongodb.net/${process.env.MONGO_DB}?retryWrites=true`, { useNewUrlParser: true })
   .catch((err) => {
@@ -43,6 +44,7 @@ app.use(express.json())
 // Use this method to split them into feature basis
 app.use('/products', productRoutes)
 app.use('/orders', orderRoutes)
+app.use('/users', userRoutes)
 
 // If any request passed the above middleware
 // that means the request can't be handled by the routes
